@@ -29,10 +29,10 @@ export default class PathFinder extends Component {
 
     componentDidMount() {
         const nodes = []; //nodes is grid
-        for(let row = 0; row < 21; row++) //20 rows
+        for(let row = 0; row < 21; row++) //21 rows
         {
             const currRow = [];
-            for(let col = 0; col < 61; col++) //60 columns 
+            for(let col = 0; col < 61; col++) //61 columns 
             {   
                 const currNode = {
                     row: row, 
@@ -49,7 +49,6 @@ export default class PathFinder extends Component {
             nodes.push(currRow);
         }
         this.setState({nodes});
-        //this.setState({start: nodes[START_NODE_ROW][START_NODE_COL], end: nodes[END_NODE_ROW][END_NODE_COL]});
         document.getElementById('info').textContent = "To move a node, click on it and then click on the node where you'd like to place it. To create walls, click or click and drag the nodes you'd like to change into walls.";
     }
 
@@ -66,15 +65,12 @@ export default class PathFinder extends Component {
                     START_NODE_CLICKED = true;
                     //Set isStart property of this node to false
                     this.state.nodes[row][col].isStart = false;
-                    //this.setState({start_row: 0, start_col: 0});
+                    
                 } 
             }
             else if(START_NODE_CLICKED) //New start node has been clicked 
             {
                 this.state.nodes[row][col].isStart = true;
-                //START_NODE_ROW = row;
-                //START_NODE_COL = col;
-                //this.setState({start_row: START_NODE_ROW, start_col: START_NODE_COL, end_row: END_NODE_ROW, end_col: END_NODE_COL});
                 //Set flag to false
                 START_NODE_CLICKED = false;
                 this.setState({start_row: row, start_col: col});
@@ -92,24 +88,21 @@ export default class PathFinder extends Component {
             else if(END_NODE_CLICKED) //New end node has been clicked 
             {
                 this.state.nodes[row][col].isFinish = true;
-                //END_NODE_ROW = row;
-                //END_NODE_COL = col;
+        
                 //Set flag to false
                 END_NODE_CLICKED = false;
                 this.setState({end_row: row, end_col: col});
-                //this.setState({start_row: START_NODE_ROW, start_col: START_NODE_COL, end_row: END_NODE_ROW, end_col: END_NODE_COL});
+                
             }
             else
             {
                 const newNodes = newGridWithWall(this.state.nodes, row, col);
-                //this.setState({nodes: newNodes, mouseIsPressed: true});
                 this.setState({nodes: newNodes, mouseIsPressed: true});
             }
         }
         else{
             return;
         }
-        //this.setState({mouseIsPressed: true});
         
     }
 
@@ -121,7 +114,7 @@ export default class PathFinder extends Component {
             if(this.state.mouseIsPressed)
             {
                 const newNodes = newGridWithWall(this.state.nodes, row, col);
-                this.setState({nodes: newNodes}); //also add mouseIsPressed??
+                this.setState({nodes: newNodes}); 
             }
             else
             {
@@ -330,7 +323,7 @@ export default class PathFinder extends Component {
         this.setState({isAnimating: false})
     }
 
-    clearGrid() //something buggy with this function :(
+    clearGrid() 
     {
         document.getElementById('info').textContent = "To move a node, click on it and then click on the node where you'd like to place it. To create walls, click or click and drag the nodes you'd like to change into walls.";
         this.setState({isClearing: true})
@@ -343,11 +336,8 @@ export default class PathFinder extends Component {
             {
                 for(const node of row)//60 columns  
                 {   
-                    
-                    //let nodeClass = document.getElementById(`node-${node.row}-${node.col}`,).className;
                     if(!node.isStart && !node.isFinish && !node.isWall)
                     {
-                        //document.getElementById(`node-${node.row}-${node.col}`).className = 'node node-clear';
                         setTimeout(() => {
                             document.getElementById(`node-${node.row}-${node.col}`).className = 'node node-clear';
                         }, 1);
@@ -400,8 +390,6 @@ export default class PathFinder extends Component {
 
     render() {
         const {nodes, mouseIsPressed} = this.state;
-        
-        //document.getElementById('info').textContent = "To move a node, click on it and then click on the node where you'd like to place it. To create walls, click or click and drag the nodes you'd like to change into walls.";
         return ( 
         <> 
             
