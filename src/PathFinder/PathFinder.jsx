@@ -291,6 +291,7 @@ export default class PathFinder extends Component {
         const shortestPathNodes = shortestPath(start, end);
         
         //Animate
+        var flag = false; 
         for(let i = 0; i <= visitedNodes.length; i++)
         {
             if(i !== visitedNodes.length)
@@ -301,12 +302,25 @@ export default class PathFinder extends Component {
             } 
             else
             { 
-                setTimeout(() => { 
-                    this.visualizeShortestPath(shortestPathNodes);
-                }, 12*i);
+                if(shortestPathNodes.length > 1)
+                {
+                    flag = true;
+                    setTimeout(() => { 
+                        this.visualizeShortestPath(shortestPathNodes);
+                    }, 12*i);
+                }
+                
             }
             
         }
+
+        if(flag === false)
+        {
+            setTimeout(() => { 
+                this.setState({isAnimating: false})
+            }, 10);
+        }
+        
         
         
     }
