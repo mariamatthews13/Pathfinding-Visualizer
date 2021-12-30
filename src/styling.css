@@ -1,0 +1,72 @@
+.navBar{
+    width: 100%;
+    height: 50px;
+    background-color: black;
+}
+.navBar-brand{
+    color: white;
+}
+.button{
+    background-color: black;
+    border: none;
+    color: white;
+    padding: 15px 25px;
+    text-align: center;
+    font-weight: bold;
+    display: inline-block;
+    font-size: 15px;
+    cursor: pointer;
+    position: relative;
+    left:-250px;
+}
+button:hover{
+    color: rgba(41, 205, 255, 0.97);
+}
+.button-brand{
+    color: white;
+    background-color: black;
+    padding: 14px 40px;
+    font-size: 19px;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+    text-align: left;
+    text-transform: none;
+    position: relative;
+    left:-250px;
+}
+.button:disabled{
+    color: rgba(161, 162, 162, 0.61);
+    cursor: default;
+}
+.infoBar
+{
+    width: 100%;
+    height: 10px;
+    display: inline-block;
+    position: center;
+    
+}
+.inline{
+    display: inline-block;
+    padding: 14px 5px;
+
+}
+.infoText{
+    font-size: 14px;
+    font-weight: 500;
+    position: relative;
+    top: -5px;
+}
+.icons{
+    padding-left: 20px;
+}
+.moreInfo{
+    width: 100%;
+    font-size: 14px;
+    font-weight: 500;
+    height: 50px;
+    line-height: 50px;
+    
+}
+
