@@ -66,7 +66,6 @@ export default class PathFinder extends Component {
                     //Set isStart property of this node to false
                     const node = this.state.nodes[row][col];
                     node.isStart = false;
-                    //this.state.nodes[row][col].isStart = false;
                     
                 } 
             }
@@ -74,7 +73,7 @@ export default class PathFinder extends Component {
             {
                 const node = this.state.nodes[row][col];
                 node.isStart = true;
-                //this.state.nodes[row][col].isStart = true;
+    
                 //Set flag to false
                 START_NODE_CLICKED = false;
                 this.setState({start_row: row, start_col: col});
@@ -87,7 +86,6 @@ export default class PathFinder extends Component {
                     //Set isFinish property of this node to false
                     const node = this.state.nodes[row][col];
                     node.isFinish = false;
-                    //this.state.nodes[row][col].isFinish = false;
                 }
 
             }
@@ -95,8 +93,7 @@ export default class PathFinder extends Component {
             {
                 const node = this.state.nodes[row][col];
                 node.isFinish = true;
-                //this.state.nodes[row][col].isFinish = true;
-        
+ 
                 //Set flag to false
                 END_NODE_CLICKED = false;
                 this.setState({end_row: row, end_col: col});
@@ -144,7 +141,7 @@ export default class PathFinder extends Component {
     genMaze()
     {
         document.getElementById('info').innerHTML = "A randomized version of Prim's algorithm is used to generate the maze. It is a perfect algorithm, meaning that there is always a unique path between any two nodes!";
-        //this.setState({isCreatingMaze: true});
+        this.setState({isCreatingMaze: true});
         //Let the whole grid be walls initially
         for(const row of this.state.nodes)
         {
@@ -165,24 +162,14 @@ export default class PathFinder extends Component {
             }
         }
 
-        var start = []
-        do{
-            start[0] = Math.floor(Math.random() *21);
-        }while(start[0] % 2 === 0);
-        do{
-            start[1] = Math.floor(Math.random() * 61);
-        }while(start[1] % 2 === 0);
-
-        const startNode = this.state.nodes[start[0]][start[1]];
-        
         //Let start node for passage be a random cell
-        // let random_row = getRandInt(0, 9); 
-        // random_row = random_row * 2 + 1; //Gets odd row number
-        // let random_col = getRandInt(0, 29);
-        // random_col = random_col * 2 + 1; //Gets odd column number
+        let random_row = getRandInt(0, 9); 
+        random_row = random_row * 2 + 1; //Gets odd row number
+        let random_col = getRandInt(0, 29);
+        random_col = random_col * 2 + 1; //Gets odd column number
 
         //Set start node as a clear, non-wall node
-        //const startNode = this.state.nodes[random_row][random_col]; 
+        const startNode = this.state.nodes[random_row][random_col]; 
         startNode.isWall = false;
         startNode.isVisited = false;
         startNode.distance = Infinity;
@@ -197,8 +184,7 @@ export default class PathFinder extends Component {
 
         while(openPath.length !== 0)
         {
-            //var index = getRandInt(0, openPath.length-1);
-            var index = Math.floor(Math.random() * openPath.length);
+            var index = getRandInt(0, openPath.length-1);
             var node = openPath[index];
             var neighbors = this.getNeighbors(node);
            
@@ -210,8 +196,7 @@ export default class PathFinder extends Component {
                     break;
                 }
 
-                //index = getRandInt(0, openPath.length-1); 
-                index = Math.floor(Math.random() * openPath.length);
+                index = getRandInt(0, openPath.length-1); 
                 node = openPath[index]; //Get another node from path nodes
                 neighbors = this.getNeighbors(node); //Get this node's neighbors
             }
@@ -219,8 +204,7 @@ export default class PathFinder extends Component {
             {
                 break;
             }
-            const randNeighbor = neighbors[Math.floor(Math.random() * neighbors.length)]; //Get a random neighbor
-            //const randNeighbor = neighbors[getRandInt(0, neighbors.length-1)]; //Get a random neighbor
+            const randNeighbor = neighbors[getRandInt(0, neighbors.length-1)]; //Get a random neighbor
             openPath.push(randNeighbor); //Add to passage set
 
             if(neighbors.length === 1) //If this neighbor is the last available one of this node, remove node from set
@@ -264,7 +248,7 @@ export default class PathFinder extends Component {
                 }                
             }
         }
-        //this.setState({isCreatingMaze: false});
+        this.setState({isCreatingMaze: false});
     }
 
     //Get neighbors for maze algorithm
@@ -309,7 +293,7 @@ export default class PathFinder extends Component {
     visualizeDijkstra()
     {
         document.getElementById('info').innerHTML = "Dijkstra's algorithm is used which guarantees the shortest path!";
-        //this.setState({isAnimating: true})
+        this.setState({isAnimating: true})
         const {nodes} = this.state;  
         const start = nodes[this.state.start_row][this.state.start_col];
         const end = nodes[this.state.end_row][this.state.end_col];
@@ -343,7 +327,7 @@ export default class PathFinder extends Component {
         if(flag === false)
         {
             setTimeout(() => { 
-                //this.setState({isAnimating: false})
+                this.setState({isAnimating: false})
             }, 10);
         }
         
@@ -360,13 +344,12 @@ export default class PathFinder extends Component {
                 const node = nodes[i];
                 document.getElementById(`node-${node.row}-${node.col}`).className='node node-shortest-path';}, 15 * i); 
         }
-        //this.setState({isAnimating: false})
+        this.setState({isAnimating: false})
     }
 
     clearGrid() 
     {
         document.getElementById('info').textContent = "To move a node, click on it and then click on the node where you'd like to place it. To create walls, click or click and drag the nodes you'd like to change into walls.";
-        //this.setState({isClearing: true})
         
         if(!this.state.isAnimating)
         {
@@ -405,29 +388,18 @@ export default class PathFinder extends Component {
                         setTimeout(() => {
                                 document.getElementById(`node-${node.row}-${node.col}`).className='node node-start';}, i*1);
                     }
-                    if(node.isWall)
-                    {
-                        // setTimeout(() => {
-                        //     document.getElementById(`node-${node.row}-${node.col}`).className = 'node node-clear';
-                        // }, i*1);
-                        
-                        // node.isWall = false;
-                    }
                     i++;
                 }
             
             }
             
-            // setTimeout(() => {
-            //     //this.setState({isClearing: false})
-            //     }, 1);  
+           
         }   
     }
 
     //Gets boolean value for disabling button
     isValid(state1, state2){
         return state1 || state2;
-        //<button disabled={this.isValid(this.state.isClearing, this.state.isAnimating)} className="button" onClick={() => this.genMaze()}> Generate Maze</button>
     } 
 
     render() {
@@ -545,7 +517,7 @@ const newGridWithWall = (nodes, row, col) => {
     node.isWall = !node.isWall; //Toggled value
     return nodes; 
 }
-// function getRandInt(min, max)
-// {
-//     return Math.floor(Math.random() * (max - min)) + min;
-// }
+function getRandInt(min, max)
+{
+    return Math.floor(Math.random() * (max - min)) + min;
+}
