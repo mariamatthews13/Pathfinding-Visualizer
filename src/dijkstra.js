@@ -24,7 +24,7 @@ export function dijkstraAlgo(grid, start, end)
     //     console.log(nearestNode.row);
     //     console.log(nearestNode.col);
 
-    while(unVisitedNodes.length != 0)
+    while(unVisitedNodes.length !== 0)
     {
         //Sort unvisited nodes by distance
         unVisitedNodes.sort((a, b) => a.distance - b.distance);
