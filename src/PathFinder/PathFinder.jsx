@@ -49,7 +49,7 @@ export default class PathFinder extends Component {
             nodes.push(currRow);
         }
         this.setState({nodes});
-        document.getElementById('info').textContent = "To move a node, click on it and then click on the node where you'd like to place it. To create walls, click or click and drag the nodes you'd like to change into walls.";
+        document.getElementById('info').innerHTML = "To move a node, click on it and then click on the node where you'd like to place it. To create walls, click or click and drag the nodes you'd like to change into walls.";
     }
 
     //When mouse is pressed down
@@ -143,7 +143,7 @@ export default class PathFinder extends Component {
     //Generates maze using randomized Prim's algorithm
     genMaze()
     {
-        //document.getElementById('info').innerHTML = "A randomized version of Prim's algorithm is used to generate the maze. It is a perfect algorithm, meaning that there is always a unique path between any two nodes!";
+        document.getElementById('info').innerHTML = "A randomized version of Prim's algorithm is used to generate the maze. It is a perfect algorithm, meaning that there is always a unique path between any two nodes!";
         //this.setState({isCreatingMaze: true});
         //Let the whole grid be walls initially
         for(const row of this.state.nodes)
@@ -308,7 +308,7 @@ export default class PathFinder extends Component {
 
     visualizeDijkstra()
     {
-        //document.getElementById('info').innerHTML = "Dijkstra's algorithm is used which guarantees the shortest path!";
+        document.getElementById('info').innerHTML = "Dijkstra's algorithm is used which guarantees the shortest path!";
         //this.setState({isAnimating: true})
         const {nodes} = this.state;  
         const start = nodes[this.state.start_row][this.state.start_col];
@@ -343,7 +343,7 @@ export default class PathFinder extends Component {
         if(flag === false)
         {
             setTimeout(() => { 
-                this.setState({isAnimating: false})
+                //this.setState({isAnimating: false})
             }, 10);
         }
         
@@ -365,7 +365,7 @@ export default class PathFinder extends Component {
 
     clearGrid() 
     {
-        //document.getElementById('info').textContent = "To move a node, click on it and then click on the node where you'd like to place it. To create walls, click or click and drag the nodes you'd like to change into walls.";
+        document.getElementById('info').textContent = "To move a node, click on it and then click on the node where you'd like to place it. To create walls, click or click and drag the nodes you'd like to change into walls.";
         //this.setState({isClearing: true})
         
         if(!this.state.isAnimating)
@@ -376,11 +376,12 @@ export default class PathFinder extends Component {
             {
                 for(const node of row)//60 columns  
                 {   
-                    if(!node.isStart && !node.isFinish && !node.isWall)
+                    if(!node.isStart && !node.isFinish) //&&!node.isWall
                     {
                         setTimeout(() => {
                             document.getElementById(`node-${node.row}-${node.col}`).className = 'node node-clear';
-                        }, i*20);
+                        }, i*1);
+                        node.isWall = false
                         node.isVisited = false;
                         node.distance = Infinity;
                         node.parent = null;
@@ -392,7 +393,7 @@ export default class PathFinder extends Component {
                         node.parent = null;
                         node.isFinish = true;
                         setTimeout(() => {
-                            document.getElementById(`node-${node.row}-${node.col}`).className='node node-finish';}, i*20);
+                            document.getElementById(`node-${node.row}-${node.col}`).className='node node-finish';}, i*1);
                     }
                     if(node.isStart)
                     {
@@ -402,17 +403,17 @@ export default class PathFinder extends Component {
                         node.isWall = false;
                         node.parent = null;
                         setTimeout(() => {
-                                document.getElementById(`node-${node.row}-${node.col}`).className='node node-start';}, i*20);
+                                document.getElementById(`node-${node.row}-${node.col}`).className='node node-start';}, i*1);
                     }
                     if(node.isWall)
                     {
-                        setTimeout(() => {
-                            document.getElementById(`node-${node.row}-${node.col}`).className = 'node node-clear';
-                        }, i*20);
+                        // setTimeout(() => {
+                        //     document.getElementById(`node-${node.row}-${node.col}`).className = 'node node-clear';
+                        // }, i*1);
                         
-                        node.isWall = false;
+                        // node.isWall = false;
                     }
-                    
+                    i++;
                 }
             
             }
@@ -426,6 +427,7 @@ export default class PathFinder extends Component {
     //Gets boolean value for disabling button
     isValid(state1, state2){
         return state1 || state2;
+        //<button disabled={this.isValid(this.state.isClearing, this.state.isAnimating)} className="button" onClick={() => this.genMaze()}> Generate Maze</button>
     } 
 
     render() {
@@ -543,7 +545,7 @@ const newGridWithWall = (nodes, row, col) => {
     node.isWall = !node.isWall; //Toggled value
     return nodes; 
 }
-function getRandInt(min, max)
-{
-    return Math.floor(Math.random() * (max - min)) + min;
-}
+// function getRandInt(min, max)
+// {
+//     return Math.floor(Math.random() * (max - min)) + min;
+// }
